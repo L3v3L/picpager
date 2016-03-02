@@ -1,9 +1,7 @@
-var x = 1200;
+var x = 800;
 var y = ((x*300)/400)
 
 $("#flipbook").turn({
-    width: x,
-    height: y,
     autoCenter: false
 });
 
@@ -60,4 +58,10 @@ $("body").keydown(function(e) {
 	else if(e.keyCode == 39) { // right
 		$("#flipbook").turn("next");
 	}
+});
+
+
+window.addEventListener('resize', function(event){
+  $("#flipbook").turn("size", "100%", "90vh");
+  console.log("resize")
 });
