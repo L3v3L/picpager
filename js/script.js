@@ -38,6 +38,53 @@ img.onload = function() {
 
 img.src = ""
 
+
+function pad(num, size) {
+    var s = num+"";
+    while (s.length <= size) s = "0" + s;
+    return s;
+}
+
+
+function expandUrlString(stringToExpand){
+	var retArray = []
+	var re = /\[\d*-\d*\]/i;
+	var found = stringToExpand.match(re);
+
+	if(!found){
+		retArray.push(stringToExpand)
+		return retArray
+	}
+	var ran = found[0].slice(1, -1)
+	
+	var re1 = /\d*-/
+	var min = ran.match(re1)
+	var min = min[0].slice(0, -1)
+	
+	var re2 = /-\d*/
+	var max = ran.match(re2)
+	var max = max[0].slice(1)
+
+	var leadingZeros = 0
+	
+	for (var i = 0; i < min.length-1; i++) {
+		if (min[i] != "0")
+			break
+		else
+			leadingZeros++
+	};
+
+	min = parseInt(min)
+	max = parseInt(max)
+
+	amount = max - min
+	for (var i = 0; i <= amount; i++) {
+		retArray.push(stringToExpand.replace(found[0], pad(min+i,leadingZeros)))
+	}
+	return retArray
+}
+
+
 function loadImages(){
 	textToParse = $('#loader textarea').val();
 	arrayOfHrefUnparsed = textToParse.split("\n")
@@ -49,8 +96,7 @@ function loadImages(){
 	for (var i = 0; i < arrayOfHrefUnparsed.length; i++) {
 		if(arrayOfHrefUnparsed[i] == '')
     		continue
-    	arrayOfHref.push(arrayOfHrefUnparsed[i])
-
+    	arrayOfHref = arrayOfHref.concat(expandUrlString(arrayOfHrefUnparsed[i]))
 	};
 	
 	totalPages = arrayOfHref.length
