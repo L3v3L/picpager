@@ -25,11 +25,11 @@ function setFlipbookFitSize(width, height) {
 widthOfFlip = "100%"
 heightOfFlip = "90vh"
 invert = true
+scrollInvert = false
 
 $("#flipbook").turn({
     autoCenter: false
 });
-
 
 var img = new Image();
 img.onload = function() {
@@ -38,13 +38,11 @@ img.onload = function() {
 
 img.src = ""
 
-
 function pad(num, size) {
     var s = num+"";
     while (s.length <= size) s = "0" + s;
     return s;
 }
-
 
 function expandUrlString(stringToExpand){
 	var retArray = []
@@ -83,7 +81,6 @@ function expandUrlString(stringToExpand){
 	}
 	return retArray
 }
-
 
 function loadImages(){
 	textToParse = $('#loader textarea').val();
@@ -150,8 +147,6 @@ function loadImages(){
 	$("#flipbook").turn("page", 1);
 }
 
-
-
 $("body").keydown(function(e) {
 	if ($("textarea").is(":focus")){
 		return
@@ -170,6 +165,22 @@ $("body").keydown(function(e) {
 	}
 });
 
+$("#flipbook").bind('mousewheel', function(e){
+    if(e.originalEvent.wheelDelta > 0)
+    {
+        if(!scrollInvert)
+			$("#flipbook").turn("previous");
+		else
+			$("#flipbook").turn("next");
+    }
+    else
+    {
+        if(!scrollInvert)
+			$("#flipbook").turn("next");
+		else
+			$("#flipbook").turn("previous");
+    }
+});
 
 window.addEventListener('resize', function(event){
   $("#flipbook").turn("size", widthOfFlip, heightOfFlip);
