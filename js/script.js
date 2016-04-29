@@ -99,6 +99,7 @@ function displayPage(){
 }
 
 function loadImages(){
+	$("#flipbook").turn("page", 1);
 	textToParse = $('#loader textarea').val();
 	arrayOfHrefUnparsed = textToParse.split("\n")
 	
@@ -158,9 +159,6 @@ function loadImages(){
 	for (var i = 0; i < amountPagesToDelete; i++) {
 		$("#flipbook").turn("removePage", 1);
 	};
-
-	//turn to first page
-	$("#flipbook").turn("page", 1);
 	displayPage()
 }
 
